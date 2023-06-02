@@ -9,13 +9,48 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "wait-on": "^7.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-dev": "concurrently \"cross-env BROWSER=none npm run start\" \"wait-on http://127.0.0.1:3000 && electron .\"",
+    "dist": "electron-builder",
+    "electron:build": "yarn build && electron-builder -c.extraMetadata.main=build/electron.js",
+    "package": "electron-builder build --mac  --win -c.extraMetadata.main=build/electron.js --publish never",
+    "publish": "electron-builder build --mac --win --publish always"
+  },
+    "build": {
+    "mac": {
+      "publish": {
+        "provider": "github",
+        "owner": "Github Owner",
+        "repo": "Repository Name",
+        "private": true,
+        "token": ""
+      }
+    },
+    "win": {
+      "publish": {
+        "provider": "github",
+        "owner": "Github Owner",
+        "repo": "Repository Name",
+        "private": true,
+        "token": ""
+      }
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "publish": {
+      "provider": "github",
+      "private": true,
+      "owner": "Github Owner"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -34,5 +69,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "main": "public/electron.js",
+    "devDependencies": {
+    "concurrently": "^7.3.0",
+    "cross-env": "^7.0.3",
+    "electron": "^20.3.8",
+    "electron-builder": "^23.6.0"
   }
 }
+
